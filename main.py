@@ -4,7 +4,7 @@ import time
 
 global pdfFileName
 
-#Created by Adam Miros
+# Created by Adam Miros
 pageCount = 1
 
 firstName = input("What is the persons first name?")
@@ -21,8 +21,6 @@ fullFileName = os.path.join(cwd, pdfFileName)
 print(pdfFileName)
 
 pdftoppmFile = os.path.join(cwd, "PDFTOPPM", "pdftoppm.exe")
-
-
 
 
 subprocess.Popen('"%s" -png "%s" out' % (pdftoppmFile, pdfFileName))
