@@ -13,7 +13,7 @@ lastName = input("What is the persons last name? \n")
 fileNames = os.listdir(os.getcwd())
 for file in fileNames:
     if file.endswith(".pdf"):
-            pdfFileName = file
+        pdfFileName = file
             
 
 cwd = os.getcwd()
