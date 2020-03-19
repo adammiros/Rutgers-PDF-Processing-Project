@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Login Page{% endblock %}
+{% block title %}Form Submission{% endblock %}
 
 
 {% block content %}
 
 <br>
 
-<form action="#" method="post" id="mainForm" style="text-align: center;">
+<form action="#" method="POST" id="mainForm" style="text-align: center;">
 
     <p>First Name:</p>
     <p><input type="text" name="firstName"/></p>
@@ -21,8 +21,8 @@
 
     <p>Department:</p>
     <p><input type="text" name="Department"/></p>
+    <p><input type="submit" value="Submit"/></p>
 
-    <button type="button" class="btn btn-success" form="mainForm" value="Submit">Submit!</button>
 
 </form>
 
