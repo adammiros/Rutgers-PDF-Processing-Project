@@ -9,6 +9,7 @@ from movetoTemporaryFolder import movetoTemporaryFolder
 
 #This is needed for flask framework to start
 app = Flask(__name__)
+ALLOWED_EXTENSION = "pdf"
 
 #Main view presented to user which will be used to collect information
 @app.route("/", methods=["GET", "POST"])
