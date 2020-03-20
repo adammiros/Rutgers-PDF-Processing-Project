@@ -4,6 +4,9 @@ from flask import Flask, redirect, url_for, render_template, request
 #Importing Method to generate TXT file
 from generateTXTFile import generateTXTFile
 
+#Importing module to move files such as TXT file and pdf to temporary folder
+from movetoTemporaryFolder import movetoTemporaryFolder
+
 #This is needed for flask framework to start
 app = Flask(__name__)
 
@@ -24,6 +27,7 @@ def home():
 
 
         generateTXTFile(firstName, lastName, netID, department)
+        movetoTemporaryFolder((firstName + "_" + lastName), ".txt")
         return render_template("home.html")
 
 
