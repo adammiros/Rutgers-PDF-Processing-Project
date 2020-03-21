@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request
 
+import os
 
 #Importing Method to generate TXT file
 from generateTXTFile import generateTXTFile
@@ -29,6 +30,14 @@ def home():
 
         generateTXTFile(firstName, lastName, netID, department)
         movetoTemporaryFolder((firstName + "_" + lastName), ".txt")
+
+        #Generating path to the temporary folder
+        pathToTemporaryFolder = os.path.join(cwd, "temporary")
+
+
+
+
+
         return render_template("home.html")
 
 
