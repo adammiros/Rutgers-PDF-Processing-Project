@@ -2,34 +2,40 @@ import os
 import subprocess
 import time
 
-global pdfFileName
-
-# Created by Adam Miros
-pageCount = 1
-
-firstName = input("What is the persons first name? \n")
-lastName = input("What is the persons last name? \n")
-
-fileNames = os.listdir(os.getcwd())
-for file in fileNames:
-    if file.endswith(".pdf"):
-        pdfFileName = file
-            
-
-cwd = os.getcwd()
-fullFileName = os.path.join(cwd, pdfFileName)
-print(pdfFileName)
-
-pdftoppmFile = os.path.join(cwd, "PDFTOPPM", "pdftoppm.exe")
+from movetoTemporaryFolder import movetoTemporaryFolder
+from deleteFile import deleteFile
 
 
-subprocess.Popen('"%s" -jpeg "%s" out' % (pdftoppmFile, pdfFileName))
+def convertPDFToJpeg(firstName, lastName):
+    temporaryDirectory = os.path.join(os.getcwd(), "temporary")
+    pdftoppmFileDirectory = os.path.join(os.getcwd(), "PDFTOPPM")
 
-time.sleep(2)
+
+    print("Grabbing PDF..... \n")
+    pdfFileName = os.path.join(temporaryDirectory, (firstName + "_" + lastName + ".pdf"))
+    pageCount = 1
 
 
-os.rename(os.path.join(cwd ,"out-1.jpg"), lastName + ", " + firstName + "_Page_1.jpeg")
-os.rename(os.path.join(cwd ,"out-2.jpg"), lastName + ", " + firstName + "_Page_2.jpeg")
+    pdftoppmFile = os.path.join(pdftoppmFileDirectory, "pdftoppm.exe")
 
-print("All done!")
-input("Press Enter to continue...")
+    print("Generating Jpeg's..... \n")
+    subprocess.Popen('"%s" -jpeg "%s" out' % (pdftoppmFile, pdfFileName))
+
+    time.sleep(2)
+
+    nameOfFirstNewJpeg = firstName + "_" + lastName + "_Page_1"
+    nameOfSecondNewJpeg = firstName + "_" + lastName + "_Page_2"
+
+    print("Remaning Jpeg's accordingly \n")
+
+    os.rename(os.path.join(os.getcwd() ,"out-1.jpg"), nameOfFirstNewJpeg + ".jpeg")
+    os.rename(os.path.join(os.getcwd() ,"out-2.jpg"), nameOfSecondNewJpeg + ".jpeg")
+
+
+    print("Moving Jpeg's to temporary folder... \n")
+    movetoTemporaryFolder(nameOfFirstNewJpeg, ".jpeg")
+    movetoTemporaryFolder(nameOfSecondNewJpeg , ".jpeg")
+
+
+    print("Deleting original PDF..... \n")
+    deleteFile((firstName + "_" + lastName), ".pdf")

@@ -8,6 +8,9 @@ from generateTXTFile import generateTXTFile
 #Importing module to move files such as TXT file and pdf to temporary folder
 from movetoTemporaryFolder import movetoTemporaryFolder
 
+
+from convertToPDF import convertPDFToJpeg
+
 #This is needed for flask framework to start
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), "temporary")
@@ -19,9 +22,12 @@ ALLOWED_EXTENSIONS = "pdf"
 #Main view presented to user which will be used to collect information
 @app.route("/", methods=["GET", "POST"])
 def home():
+
+    #Requesting the page
     if request.method == "GET":
         return render_template("home.html")
 
+    #Getting the data from the page
     elif request.method == "POST":
         firstName = request.form["firstName"]
         lastName = request.form["lastName"]
@@ -38,8 +44,14 @@ def home():
         file_name = file.filename
 
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+
+        convertPDFToJpeg(firstName, lastName)
+
         return redirect(request.url)
 
+
+        #Returning to homepage to submit another request
         return render_template("home.html")
 
 
@@ -53,5 +65,4 @@ if __name__ == "__main__":
     app.secret_key = 'Test'
     app.config['SESSION_TYPE'] = 'filesystem'
 
-    sess.init_app(app)
     app.run(debug=True)
