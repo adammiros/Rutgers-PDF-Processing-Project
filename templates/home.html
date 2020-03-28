@@ -6,7 +6,7 @@
 
 <br>
 
-<form action="#" method="POST" id="mainForm" style="text-align: center;">
+<form action="#" method="POST" id="mainForm" enctype="multipart/form-data" style="text-align: center;">
 
     <p>First Name:</p>
     <p><input type="text" name="firstName"/></p>
@@ -21,6 +21,13 @@
 
     <p>Department:</p>
     <p><input type="text" name="Department"/></p>
+    <br>
+
+    <input type="file" id="file" name="pdf_file" accept="application/pdf">
+
+    <br>
+    <br>
+
     <p><input type="submit" value="Submit"/></p>
 
 

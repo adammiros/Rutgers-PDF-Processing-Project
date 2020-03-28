@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, request, redirect, url_for, render_template, flash
 
 import os
 
@@ -10,7 +10,11 @@ from movetoTemporaryFolder import movetoTemporaryFolder
 
 #This is needed for flask framework to start
 app = Flask(__name__)
-ALLOWED_EXTENSION = "pdf"
+app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), "temporary")
+
+
+ALLOWED_EXTENSIONS = "pdf"
+
 
 #Main view presented to user which will be used to collect information
 @app.route("/", methods=["GET", "POST"])
@@ -24,19 +28,17 @@ def home():
         netID = request.form["NETID"]
         department = request.form["Department"]
 
-
-
-
-
+        #Generating TXT Document
         generateTXTFile(firstName, lastName, netID, department)
         movetoTemporaryFolder((firstName + "_" + lastName), ".txt")
 
-        #Generating path to the temporary folder
-        pathToTemporaryFolder = os.path.join(cwd, "temporary")
 
+        #Getinng PDF into temporary folder
+        file = request.files["pdf_file"]
+        file_name = file.filename
 
-
-
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        return redirect(request.url)
 
         return render_template("home.html")
 
@@ -48,4 +50,8 @@ def sucessPage():
 
 
 if __name__ == "__main__":
+    app.secret_key = 'Test'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    sess.init_app(app)
     app.run(debug=True)
