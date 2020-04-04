@@ -53,31 +53,17 @@ def home():
         time.sleep(3)
 
 
-
-        #Getting all files in the temporary directory that will be returned to the user
-        #files = []
-        # r= root, d= directories, f= files
-
-        #for r, d, f in os.walk(temporaryDirectory):
-         #   for item in f:
-          #      files.append(os.path.join(r, item))
-
-        #for item in files:
-        #    return send_from_directory(directory=temporaryDirectory, file_name=item)
-
-
-
-
-        return redirect(request.url)
+        return downloadPage(firstName, lastName)
 
 
         #Returning to homepage to submit another request
         return render_template("home.html")
 
 
-@app.route("/sucess")
-def sucessPage():
-    return "<h1>Sucess!</h1>"
+@app.route("/download")
+def downloadPage(firstName, lastName):
+    return send_file(os.path.join(temporaryDirectory, firstName + "_" + lastName + "_" + "Page" + "_" + "1.jpeg" ), mimetype=None, as_attachment=True)
+    return send_file(os.path.join(temporaryDirectory, firstName + "_" + lastName + "_" + "Page" + "_" + "2.jpeg" ), mimetype=None, as_attachment=True)
 
 
 
