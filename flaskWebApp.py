@@ -1,6 +1,7 @@
-from flask import Flask, request, redirect, url_for, render_template, flash
+from flask import Flask, request, redirect, url_for, render_template, flash, send_from_directory, send_file
 
 import os
+import time
 
 #Importing Method to generate TXT file
 from generateTXTFile import generateTXTFile
@@ -15,6 +16,7 @@ from convertToPDF import convertPDFToJpeg
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), "temporary")
 
+temporaryDirectory = os.path.join(os.getcwd(), "temporary")
 
 ALLOWED_EXTENSIONS = "pdf"
 
@@ -47,6 +49,24 @@ def home():
 
 
         convertPDFToJpeg(firstName, lastName)
+
+        time.sleep(3)
+
+
+
+        #Getting all files in the temporary directory that will be returned to the user
+        #files = []
+        # r= root, d= directories, f= files
+
+        #for r, d, f in os.walk(temporaryDirectory):
+         #   for item in f:
+          #      files.append(os.path.join(r, item))
+
+        #for item in files:
+        #    return send_from_directory(directory=temporaryDirectory, file_name=item)
+
+
+
 
         return redirect(request.url)
 
