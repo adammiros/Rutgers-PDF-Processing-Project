@@ -6,34 +6,50 @@
 
 <br>
 
-<form action="#" method="POST" id="mainForm" enctype="multipart/form-data" style="text-align: center;">
 
-    <p>First Name:</p>
-    <p><input type="text" name="firstName"/></p>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">PDF Submission</h1>
+    <p class="lead">Please fill out the forms below and attach the two page PDF which you wish to submit.</p>
+  </div>
+</div>
+
+<div class="container">
+<form action="#" method="POST" id="mainForm" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <p>First Name:</p>
+            <p><input class="form-control" type="text" name="firstName" placeholder="John"/></p>
 
 
-    <p>Last Name:</p>
-    <p><input type="text" name="lastName"/></p>
+            <p>Last Name:</p>
+            <p><input class="form-control" type="text" name="lastName" placeholder="Smith"/></p>
+        </div>
 
+        <div class="form-group">
+            <p>NetID:</p>
+            <p><input class="form-control" type="text" name="NETID" placeholder="js123"/></p>
 
-    <p>NetID:</p>
-    <p><input type="text" name="NETID"/></p>
+            <p>Department:</p>
+            <p><input class="form-control" type="text" name="Department" placeholder="Department"/></p>
+        <br>
+        </div>
 
-    <p>Department:</p>
-    <p><input type="text" name="Department"/></p>
+    <div class="text-center">
+    <input class="form-control-file" type="file" id="file" name="pdf_file" accept="application/pdf">
+    </div>
+    <br>
     <br>
 
-    <input type="file" id="file" name="pdf_file" accept="application/pdf">
+    <div class="text-center">
+    <p><input class="btn btn-primary" type="submit" value="Submit"/></p>
+    </div>
 
-    <br>
-    <br>
-
-    <p><input type="submit" value="Submit"/></p>
 
 
 </form>
-
-
+</div>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 {% endblock %}
 
