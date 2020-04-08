@@ -9,8 +9,27 @@ from generateTXTFile import generateTXTFile
 #Importing module to move files such as TXT file and pdf to temporary folder
 from movetoTemporaryFolder import movetoTemporaryFolder
 
-
+#The module that handles conversion
 from convertToPDF import convertPDFToJpeg
+
+
+#The module that generates final zip file
+from zipFiles import createZip
+
+#Module that clears out files from the temporary folder
+from clearTemporaryFolder import clearTemporaryCache
+
+
+
+
+# Checking to make sure temporary directory exists!
+if not os.path.exists("temporary"):
+    os.mkdir("temporary")
+    print("Temporary directory created \n")
+else:
+    print("Skipping the creation of temporary directory... \n")
+
+
 
 #This is needed for flask framework to start
 app = Flask(__name__)
@@ -19,6 +38,7 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(), "temporary")
 temporaryDirectory = os.path.join(os.getcwd(), "temporary")
 
 ALLOWED_EXTENSIONS = "pdf"
+
 
 
 #Main view presented to user which will be used to collect information
@@ -47,23 +67,25 @@ def home():
 
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 
-
+        #Convert PFF to multiple JPEG's
         convertPDFToJpeg(firstName, lastName)
 
+
+        #Wait three seconds for conversion to occur
         time.sleep(3)
 
+        #Create zip file which will be returned
+        createZip(firstName, lastName)
 
-        return downloadPage(firstName, lastName)
 
+        #Return final zip file containing JPEG's and TXT document to user
+        send_file(os.path.join(temporaryDirectory, "Returned_Files.zip"), mimetype=None, as_attachment=True)
 
-        #Returning to homepage to submit another request
+        #Clearing the temporary folder
+        clearTemporaryCache()
+
+        # Returning to homepage to submit another request
         return render_template("home.html")
-
-
-@app.route("/download")
-def downloadPage(firstName, lastName):
-    return send_file(os.path.join(temporaryDirectory, firstName + "_" + lastName + "_" + "Page" + "_" + "1.jpeg" ), mimetype=None, as_attachment=True)
-    return send_file(os.path.join(temporaryDirectory, firstName + "_" + lastName + "_" + "Page" + "_" + "2.jpeg" ), mimetype=None, as_attachment=True)
 
 
 
