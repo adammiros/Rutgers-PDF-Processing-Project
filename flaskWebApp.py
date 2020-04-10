@@ -19,10 +19,6 @@ from convertToPDF import convertPDFToJpeg
 #The module that generates final zip file
 from zipFiles import createZip
 
-#Module that clears out files from the temporary folder
-from clearTemporaryFolder import clearTemporaryCache
-
-
 
 #This is needed for flask framework to start
 app = Flask(__name__)
