@@ -2,14 +2,14 @@
 
 
 def generateTXTFile(firstName, lastName, netID, department):
-
+    #Check to make sure folder is cleared out
     try:
-        f = open((firstName + "_" + lastName + ".txt"), "w+")
-        f.write("First Name: " + firstName + "\n")
-        f.write("Last Name: " + lastName + "\n")
-        f.write("NetID: " + netID + "\n")
-        f.write("Department: " + department + "\n")
+        with open((firstName + "_" + lastName + ".txt"), "w+") as f:
+            f.write("First Name: " + firstName + "\n")
+            f.write("Last Name: " + lastName + "\n")
+            f.write("NetID: " + netID + "\n")
+            f.write("Department: " + department + "\n")
 
-        f.close()
+            f.close()
     except:
         print("File most likly exists.... Skipping")

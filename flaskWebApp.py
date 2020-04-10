@@ -2,7 +2,8 @@ from flask import Flask, request, redirect, url_for, render_template, flash, sen
 
 import os
 import time
-
+import shutil
+import pathlib
 #Importing Method to generate TXT file
 from generateTXTFile import generateTXTFile
 
@@ -23,11 +24,7 @@ from clearTemporaryFolder import clearTemporaryCache
 
 
 # Checking to make sure temporary directory exists!
-if not os.path.exists("temporary"):
-    os.mkdir("temporary")
-    print("Temporary directory created \n")
-else:
-    print("Skipping the creation of temporary directory... \n")
+
 
 
 
@@ -41,6 +38,7 @@ ALLOWED_EXTENSIONS = "pdf"
 
 
 
+
 #Main view presented to user which will be used to collect information
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -51,10 +49,22 @@ def home():
 
     #Getting the data from the page
     elif request.method == "POST":
+        os.chdir(pathlib.Path(__file__).parent.absolute())
+        shutil.rmtree("temporary")
+
+        time.sleep(3)
+        os.mkdir("temporary")
+
+
+
+
+        clearTemporaryCache()
         firstName = request.form["firstName"]
         lastName = request.form["lastName"]
         netID = request.form["NETID"]
         department = request.form["Department"]
+
+
 
         #Generating TXT Document
         generateTXTFile(firstName, lastName, netID, department)
@@ -78,14 +88,11 @@ def home():
         createZip(firstName, lastName)
 
 
-        #Return final zip file containing JPEG's and TXT document to user
-        send_file(os.path.join(temporaryDirectory, "Returned_Files.zip"), mimetype=None, as_attachment=True)
+        return send_file(os.path.join(temporaryDirectory, "Returned_Files.zip"), mimetype=None, as_attachment=True)
 
-        #Clearing the temporary folder
-        clearTemporaryCache()
-
-        # Returning to homepage to submit another request
         return render_template("home.html")
+
+
 
 
 

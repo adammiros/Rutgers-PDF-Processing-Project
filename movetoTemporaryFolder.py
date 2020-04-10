@@ -1,9 +1,10 @@
 import pathlib
 import os
 import shutil
-
+import time
 
 def movetoTemporaryFolder(fileName: str, extension: str):
+
     #Get current Directory of this file (I.E Root... I need it so I can use it in the move function
     currentWorkingDirectory = pathlib.Path(__file__).parent.absolute()
 
