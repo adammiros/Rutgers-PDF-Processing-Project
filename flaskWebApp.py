@@ -36,7 +36,6 @@ ALLOWED_EXTENSIONS = "pdf"
 #Main view presented to user which will be used to collect information.
 @app.route("/", methods=["GET", "POST"])
 def home():
-
     #Requesting the page
     if request.method == "GET":
         return render_template("home.html")
@@ -57,22 +56,17 @@ def home():
         netID = request.form["NETID"]
         department = request.form["Department"]
 
-
-
         #Generating TXT Document
         generateTXTFile(firstName, lastName, netID, department)
         movetoTemporaryFolder((firstName + "_" + lastName), ".txt")
 
-
         #Getinng PDF into temporary folder
         file = request.files["pdf_file"]
         file_name = file.filename
-
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 
         #Convert PFF to multiple JPEG's
         convertPDFToJpeg(firstName, lastName)
-
 
         #Wait three seconds for conversion to occur
         time.sleep(3)
@@ -80,9 +74,7 @@ def home():
         #Create zip file which will be returned
         createZip(firstName, lastName)
 
-
         return send_file(os.path.join(temporaryDirectory, "Returned_Files.zip"), mimetype=None, as_attachment=True)
-
         return render_template("home.html")
 
 

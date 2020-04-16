@@ -5,9 +5,6 @@ import time
 from movetoTemporaryFolder import movetoTemporaryFolder
 from deleteFile import deleteFile
 
-
-
-
 def convertPDFToJpeg(firstName, lastName):
 
     pdfFileName = ""
@@ -18,17 +15,12 @@ def convertPDFToJpeg(firstName, lastName):
     #Creating variable to store path to PDFTOPPM Folder which houses EXE (What I use to convert)
     pdftoppmFileDirectory = os.path.join(os.getcwd(), "PDFTOPPM")
 
-
     #Grabbing PDF File
     fileNames = os.listdir(temporaryDirectory)
     for file in fileNames:
         if file.endswith(".pdf"):
             pdfFileName = file
             os.rename(os.path.join(temporaryDirectory, pdfFileName), (firstName + "_" + lastName + ".pdf"))
-
-
-
-
 
     #Creating the full path to PDFTOPPM.EXE
     pdftoppmFile = os.path.join(pdftoppmFileDirectory, "pdftoppm.exe")
@@ -39,15 +31,12 @@ def convertPDFToJpeg(firstName, lastName):
     #Calling a subprocess (i.e another thread) which does actual conversion
     subprocess.call('"%s" -jpeg "%s" out' % (pdftoppmFile, (firstName + "_" + lastName + ".pdf")))
 
-
     #Waiting 2 seconds just in case
     time.sleep(2)
 
     #Creating names which JPEGs will be renamed to
     nameOfFirstNewJpeg = firstName + "_" + lastName + "_Page_1"
     nameOfSecondNewJpeg = firstName + "_" + lastName + "_Page_2"
-
-
 
 
     print("Remaning Jpeg's accordingly \n")
